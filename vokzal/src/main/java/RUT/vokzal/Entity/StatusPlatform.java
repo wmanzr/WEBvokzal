@@ -1,7 +1,8 @@
 package RUT.vokzal.Entity;
 
 public enum StatusPlatform {
-    FREE,            // Платформа свободна
-    OCCUPIED,        // Платформа занята
-    UNDER_MAINTENANCE // Платформа на ремонте
+    FREE,              //свободна
+    OCCUPIED,          //занята
+    UNDER_MAINTENANCE, //на ремонте
+    NOT_USED           //не используется
 }

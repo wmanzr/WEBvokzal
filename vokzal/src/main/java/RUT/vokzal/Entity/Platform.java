@@ -44,7 +44,7 @@ public class Platform extends BaseEntity{
 		this.number = number;
 	}
 
-  public void setStatus(StatusPlatform statusPlatform) {
+  public void setStatusPlatform(StatusPlatform statusPlatform) {
     this.statusPlatform = statusPlatform;
   }
 }

@@ -1,10 +1,14 @@
 package RUT.vokzal.Repository.Impl;
 
 import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
 import RUT.vokzal.Entity.Train;
 import RUT.vokzal.Repository.BaseRepository;
 import RUT.vokzal.Repository.TrainRepository;
 
+@Repository
 public class TrainRepositoryImpl extends BaseRepository<Train, Integer> implements TrainRepository {
 
     public TrainRepositoryImpl() {
