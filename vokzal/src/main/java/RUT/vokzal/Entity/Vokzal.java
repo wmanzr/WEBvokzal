@@ -9,7 +9,9 @@ public class Vokzal extends BaseEntity{
   private String city;
   private int capacity;
 
-	@Column(name = "name", nullable = false)
+  public Vokzal() {}
+
+	@Column(name = "name", nullable = false, unique = true)
 	public String getName() {
 		return name;
 	}

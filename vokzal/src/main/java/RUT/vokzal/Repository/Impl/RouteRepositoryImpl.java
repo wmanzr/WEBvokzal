@@ -1,10 +1,14 @@
 package RUT.vokzal.Repository.Impl;
 
 import java.util.List;
+
+import org.springframework.stereotype.Repository;
 import RUT.vokzal.Entity.Route;
 import RUT.vokzal.Repository.BaseRepository;
 import RUT.vokzal.Repository.RouteRepository;
+import jakarta.transaction.Transactional;
 
+@Repository
 public class RouteRepositoryImpl extends BaseRepository<Route, Integer> implements RouteRepository {
 
     public RouteRepositoryImpl() {
@@ -12,6 +16,7 @@ public class RouteRepositoryImpl extends BaseRepository<Route, Integer> implemen
     }
 
     @Override
+    @Transactional
     public void create(Route route) {
         super.create(route);
     }

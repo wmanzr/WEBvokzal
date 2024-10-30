@@ -1,12 +1,11 @@
 package RUT.vokzal.Repository.Impl;
 
 import java.util.List;
-
 import org.springframework.stereotype.Repository;
-
 import RUT.vokzal.Entity.Train;
 import RUT.vokzal.Repository.BaseRepository;
 import RUT.vokzal.Repository.TrainRepository;
+import jakarta.transaction.Transactional;
 
 @Repository
 public class TrainRepositoryImpl extends BaseRepository<Train, Integer> implements TrainRepository {
@@ -16,6 +15,7 @@ public class TrainRepositoryImpl extends BaseRepository<Train, Integer> implemen
     }
 
     @Override
+    @Transactional
     public void create(Train train) {
         super.create(train);
     }

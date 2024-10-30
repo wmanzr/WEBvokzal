@@ -8,4 +8,5 @@ public interface VokzalRepository {
     public Vokzal findById(Integer id);
     public Vokzal update(Vokzal vokzal);
     public List<Vokzal> findAll();
+    Vokzal findByName(String name);
 }

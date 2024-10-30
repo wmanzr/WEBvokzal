@@ -12,6 +12,8 @@ public class Route extends BaseEntity{
   private Platform depPlId;
   private Platform arrPlId;
 
+  public Route() {}
+
   @Column(name = "timeDep", nullable = false)
 	public LocalTime getTimeDep() {
 		return timeDep;

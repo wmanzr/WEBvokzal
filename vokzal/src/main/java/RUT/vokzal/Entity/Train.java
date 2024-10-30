@@ -11,6 +11,8 @@ public class Train extends BaseEntity{
   private int capacity;
   private StatusTrain statusTrain;
 
+  public Train() {}
+
   	@Enumerated(EnumType.STRING)
     @Column(name = "status_train", nullable = false)
     public StatusTrain getStatusTrain() {
@@ -41,7 +43,7 @@ public class Train extends BaseEntity{
         this.statusTrain = statusTrain;
     }
 
-	public void setnumber(int number) {
+	public void setNumber(int number) {
 		this.number = number;
 	}
 

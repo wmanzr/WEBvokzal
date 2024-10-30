@@ -13,13 +13,15 @@ public class Trip extends BaseEntity{
   private Route routeId;
   private StatusTrip statusTrip;
   private boolean isDelayed;
-    private LocalTime delayTime;
+  private LocalTime delayTime;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status_trip", nullable = false)
-    public StatusTrip getStatusTrip() {
-        return this.statusTrip;
-    }
+  public Trip() {}
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status_trip", nullable = false)
+  public StatusTrip getStatusTrip() {
+      return this.statusTrip;
+  }
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "trainId", referencedColumnName = "id")

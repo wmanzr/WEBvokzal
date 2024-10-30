@@ -11,6 +11,8 @@ public class Employee extends BaseEntity{
   private int experience;
   private Train trainId;
 
+  public Employee() {}
+
   @ManyToOne(fetch = FetchType.LAZY,  optional = true)
   @JoinColumn(name = "trainId", referencedColumnName = "id")
   public Train getTrainId() {

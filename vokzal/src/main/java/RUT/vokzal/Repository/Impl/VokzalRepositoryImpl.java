@@ -1,11 +1,13 @@
 package RUT.vokzal.Repository.Impl;
 
 import java.util.List;
-
+import org.springframework.stereotype.Repository;
 import RUT.vokzal.Entity.Vokzal;
 import RUT.vokzal.Repository.BaseRepository;
 import RUT.vokzal.Repository.VokzalRepository;
+import jakarta.transaction.Transactional;
 
+@Repository
 public class VokzalRepositoryImpl extends BaseRepository<Vokzal, Integer> implements VokzalRepository {
 
     public VokzalRepositoryImpl() {
@@ -13,6 +15,7 @@ public class VokzalRepositoryImpl extends BaseRepository<Vokzal, Integer> implem
     }
 
     @Override
+    @Transactional
     public void create(Vokzal vokzal) {
         super.create(vokzal);
     }
@@ -30,5 +33,13 @@ public class VokzalRepositoryImpl extends BaseRepository<Vokzal, Integer> implem
     @Override
     public List<Vokzal> findAll() {
         return super.findAll();
+    }
+
+    @Override
+    public Vokzal findByName(String name) {
+        return entityManager.createQuery(
+                "SELECT v FROM Vokzal v WHERE v.name = :name", Vokzal.class)
+                .setParameter("name", name)
+                .getSingleResult();
     }
 }

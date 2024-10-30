@@ -3,8 +3,12 @@ package RUT.vokzal.Repository.Impl;
 import RUT.vokzal.Entity.Employee;
 import RUT.vokzal.Repository.BaseRepository;
 import RUT.vokzal.Repository.EmployeeRepository;
-import java.util.List;
+import jakarta.transaction.Transactional;
 
+import java.util.List;
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class EmployeeRepositoryImpl extends BaseRepository<Employee, Integer> implements EmployeeRepository {
 
     public EmployeeRepositoryImpl() {
@@ -12,6 +16,7 @@ public class EmployeeRepositoryImpl extends BaseRepository<Employee, Integer> im
     }
 
     @Override
+    @Transactional
     public void create(Employee employee) {
         super.create(employee);
     }

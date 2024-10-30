@@ -10,6 +10,8 @@ public class Platform extends BaseEntity{
   private String type;
   private StatusPlatform statusPlatform;
 
+  public Platform() {}
+
   @Enumerated(EnumType.STRING)
   @Column(name = "status_platform", nullable = false)
   public StatusPlatform getStatusPlatform() {

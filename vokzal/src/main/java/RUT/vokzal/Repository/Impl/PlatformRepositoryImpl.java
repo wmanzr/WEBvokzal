@@ -3,9 +3,12 @@ package RUT.vokzal.Repository.Impl;
 import RUT.vokzal.Entity.Platform;
 import RUT.vokzal.Repository.BaseRepository;
 import RUT.vokzal.Repository.PlatformRepository;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class PlatformRepositoryImpl extends BaseRepository<Platform, Integer> implements PlatformRepository {
 
     public PlatformRepositoryImpl() {
@@ -13,6 +16,7 @@ public class PlatformRepositoryImpl extends BaseRepository<Platform, Integer> im
     }
 
     @Override
+    @Transactional
     public void create(Platform platform) {
         super.create(platform);
     }
