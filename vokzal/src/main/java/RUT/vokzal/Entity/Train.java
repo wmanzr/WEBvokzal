@@ -10,6 +10,7 @@ public class Train extends BaseEntity{
   private String model;
   private int capacity;
   private StatusTrain statusTrain;
+  private int maxSpeed;
 
   public Train() {}
 
@@ -39,6 +40,11 @@ public class Train extends BaseEntity{
 		return capacity;
 	}
 
+	@Column(name = "max_speed", nullable = false)
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+
 	public void setStatusTrain(StatusTrain statusTrain) {
         this.statusTrain = statusTrain;
     }
@@ -57,5 +63,9 @@ public class Train extends BaseEntity{
 
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
+	}
+
+	public void setMaxSpeed(int maxSpeed) {
+		this.maxSpeed = maxSpeed;
 	}
 }

@@ -1,19 +1,40 @@
 package RUT.vokzal.Service.Impl;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+import RUT.vokzal.Entity.Vokzal;
+import RUT.vokzal.DTO.VokzalDTO;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import RUT.vokzal.Repository.TripRepository;
+import RUT.vokzal.Repository.VokzalRepository;
 import RUT.vokzal.Service.TopVokzalService;
 
 @Service
 public class TopVokzalServiceImpl implements TopVokzalService{
+    
+    private ModelMapper modelMapper;
+
+    public ModelMapper getModelMapper() {
+        return this.modelMapper;
+    }
 
     @Autowired
-    private TripRepository tripRepository;
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+    @Autowired
+    private VokzalRepository vokzalRepository;
 
     @Override
-    public List<Object[]> getTop5VokzalsByDepartures() {
-        return tripRepository.findTop5VokzalsByDepartures();
+    public List<VokzalDTO> getTop5VokzalsByDepartures() {
+    LocalDate nowDate = LocalDate.now();
+    List<Vokzal> topVokzals = vokzalRepository.findTop5VokzalsByDepartures(nowDate);
+    return topVokzals.stream()
+            .map(vokzal -> modelMapper.map(vokzal, VokzalDTO.class))
+            .collect(Collectors.toList());
     }
 }

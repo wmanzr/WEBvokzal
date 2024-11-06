@@ -1,10 +1,10 @@
 package RUT.vokzal.Service;
 
-import RUT.vokzal.Entity.Trip;
+import RUT.vokzal.DTO.TripDTO;
 import java.util.List;
 
 public interface HomeService {
-    List<Object[]> getUpcomingTripsWithTimeByStationName(String vokzalName);
+    List<TripDTO> getUpcomingTripsWithTimeByStationName(String vokzalName);
     int getStationLoadByDayAndTime(String vokzalName);
-    List<Trip> getAlternativeTripsIfCanceled(); 
+    List<TripDTO> getAlternativeTripsIfCanceled(); 
 }

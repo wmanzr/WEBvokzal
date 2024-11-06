@@ -39,7 +39,7 @@ public class Employee extends BaseEntity{
 		return experience;
 	}
 
-  public void settrainId(Train train) {
+  public void setTrainId(Train train) {
 		this.trainId = train;
 	}
 

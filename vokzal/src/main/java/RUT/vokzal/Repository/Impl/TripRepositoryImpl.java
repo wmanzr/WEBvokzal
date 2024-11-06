@@ -1,6 +1,7 @@
 package RUT.vokzal.Repository.Impl;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 import RUT.vokzal.Entity.StatusTrip;
@@ -38,12 +39,17 @@ public class TripRepositoryImpl extends BaseRepository<Trip, Integer> implements
     }
 
     @Override
-    public List<Object[]> findUpcomingTripsWithTimeByStation(int stationId, LocalDateTime dateTime) {
-        return entityManager.createQuery(
-                "SELECT t.date, r.timeDep FROM Trip t JOIN t.route r WHERE r.depPlId.vokzalId.id = :stationId AND t.date >= :dateTime", Object[].class)
-                .setParameter("stationId", stationId)
-                .setParameter("dateTime", dateTime)
-                .getResultList();
+    public List<Trip> findUpcomingTripsWithTimeByStation(int stationId, LocalDate nowDate, LocalTime nowTime) {
+    return entityManager.createQuery(
+            "SELECT t " +
+            "FROM Trip t JOIN t.route r " +
+            "WHERE r.depPlId.vokzalId.id = :stationId " +
+            "AND (t.dateDep > :nowDate OR (t.dateDep = :nowDate AND r.timeDep >= :nowTime))", 
+            Trip.class)
+            .setParameter("stationId", stationId)
+            .setParameter("nowDate", nowDate)
+            .setParameter("nowTime", nowTime)
+            .getResultList();
     }
 
     @Override
@@ -55,23 +61,31 @@ public class TripRepositoryImpl extends BaseRepository<Trip, Integer> implements
     }
 
     @Override
-    public List<Trip> findAlternativeTrips(int routeId) {
-        return entityManager.createQuery(
-                "SELECT t FROM Trip t WHERE t.route.id = :routeId AND t.statusTrip <> :cancelled", Trip.class)
-                .setParameter("routeId", routeId)
-                .setParameter("cancelled", StatusTrip.CANCELLED)
-                .getResultList();
+    public List<Trip> findAlternativeTrips(int routeId, LocalDate nowDate) {
+    return entityManager.createQuery(
+            "SELECT t FROM Trip t " +
+            "WHERE t.route.id = :routeId " +
+            "AND t.statusTrip <> :cancelled " +
+            "AND t.dateDep > :nowDate " +
+            "ORDER BY t.dateDep ASC", Trip.class)
+            .setParameter("routeId", routeId)
+            .setParameter("cancelled", StatusTrip.CANCELLED)
+            .setParameter("nowDate", nowDate)
+            .setMaxResults(1)
+            .getResultList();
     }
 
-    @Override
-    public List<Object[]> findTop5VokzalsByDepartures() {
-        return entityManager.createQuery(
-                "SELECT t.route.depPlId.vokzalId AS vokzal, COUNT(t) AS tripCount " +
-                "FROM Trip t " +
-                "WHERE t.date >= CURRENT_DATE - 7 " +
-                "GROUP BY t.route.depPlId.vokzalId " +
-                "ORDER BY tripCount DESC", Object[].class)
-                .setMaxResults(5)
-                .getResultList();
+@Override
+public List<Trip> findTop5TripsWithMaxSpeedAndMinDuration() {
+    List<Trip> trips = entityManager.createQuery(
+        "SELECT t FROM Trip t " +
+        "JOIN t.train tr " +
+        "JOIN t.route r " +
+        "WHERE t.dateDep IS NOT NULL AND t.dateArr IS NOT NULL " +
+        "ORDER BY tr.maxSpeed DESC", 
+        Trip.class)
+        .setMaxResults(5)
+        .getResultList();
+    return trips;
     }
 }

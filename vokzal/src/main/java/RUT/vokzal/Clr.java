@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 @Component
 public class Clr implements CommandLineRunner {
@@ -27,6 +29,7 @@ public class Clr implements CommandLineRunner {
     
     @SuppressWarnings("deprecation")
     private final Faker faker = new Faker(new Locale("ru"));
+    private final Random random = new Random();
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -46,13 +49,16 @@ public class Clr implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        //clearDatabase();
-        // generateTrains();
-        // generatePlatforms();
-        // generateEmployees();
-        // generateVokzals();
-        // generateRoutes();
-        // generateTrips();
+        clearDatabase();
+
+        int count = 40;
+
+        generateTrains(count);
+        generateVokzals();
+        generatePlatforms();
+        generateEmployees(count);
+        generateRoutes(count);
+        generateTrips(count);
     }
 
     private void clearDatabase() {
@@ -64,70 +70,100 @@ public class Clr implements CommandLineRunner {
         entityManager.createNativeQuery("TRUNCATE TABLE vokzal RESTART IDENTITY CASCADE").executeUpdate();
     }
     
-    private void generateTrains() {
-        for (int i = 0; i < 5; i++) {
+    private void generateTrains(int count) {
+        for (int i = 0; i < count; i++) {
             Train train = new Train();
             train.setNumber(faker.number().numberBetween(1000, 9999));
             train.setType(faker.lorem().word());
-            train.setModel(faker.lorem().word());
+            train.setModel(faker.commerce().productName());
             train.setCapacity(faker.number().numberBetween(50, 300));
-            train.setStatusTrain(StatusTrain.AT_STATION);
+            train.setMaxSpeed(faker.number().numberBetween(80, 180));
+            train.setStatusTrain(randomStatusTrain());
             trainRepository.create(train);
         }
     }
+
+    private StatusTrain randomStatusTrain() {
+        return StatusTrain.values()[random.nextInt(StatusTrain.values().length)];
+    }
+
+    private void generateVokzals() {
+        for (int i = 0; i < 15; ) {
+            Vokzal vokzal = new Vokzal();
+            String name = faker.company().name();
     
-    private void generatePlatforms() {
-        for (int i = 0; i < 3; i++) {
-            Platform platform = new Platform();
-            platform.setNumber(i + 1);
-            platform.setType(faker.lorem().word());
-            platform.setStatusPlatform(StatusPlatform.FREE);
-            platformRepository.create(platform);
+            Long existingCount = entityManager.createQuery(
+                    "SELECT COUNT(v) FROM Vokzal v WHERE v.name = :name", Long.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+    
+            if (existingCount == 0) {
+                vokzal.setName(name);
+                vokzal.setCity(faker.address().city());
+                vokzal.setCapacity(faker.number().numberBetween(200, 500));
+                vokzalRepository.create(vokzal);
+                i++;
+            }
         }
     }
+
+    private void generatePlatforms() {
+            List<Vokzal> vokzals = vokzalRepository.findAll();
+            for (Vokzal vokzal : vokzals) {
+
+                for (int platformNumber = 1; platformNumber <= 15; platformNumber++) {
+                Platform platform = new Platform();
+                platform.setNumber(platformNumber);
+                platform.setType(faker.lorem().word());
+                platform.setVokzalId(vokzal);
+                platform.setStatusPlatform(randomStatusPlatform());
+                platformRepository.create(platform);
+            }
+        }
+    }
+
+    private StatusPlatform randomStatusPlatform() {
+        return StatusPlatform.values()[random.nextInt(StatusPlatform.values().length)];
+    }
     
-    private void generateEmployees() {
-        for (int i = 0; i < 10; i++) {
+    private void generateEmployees(int count) {
+        for (int i = 0; i < count; i++) {
             Employee employee = new Employee();
             employee.setPost(faker.job().position());
             employee.setLogin(faker.name().username());
             employee.setPassword(faker.internet().password());
             employee.setExperience(faker.number().numberBetween(1, 20));
-            employee.settrainId(trainRepository.findAll().get(i % 5)); // Присваиваем train из существующих
+            employee.setTrainId(trainRepository.findAll().get(random.nextInt(count)));
             employeeRepository.create(employee);
         }
     }
-
-    private void generateVokzals() {
-        for (int i = 0; i < 2; i++) {
-            Vokzal vokzal = new Vokzal();
-            vokzal.setName(faker.company().name());
-            vokzal.setCity(faker.address().city());
-            vokzal.setCapacity(faker.number().numberBetween(200, 500));
-            vokzalRepository.create(vokzal);
-        }
-    }
     
-    private void generateRoutes() {
-        for (int i = 0; i < 5; i++) {
+    private void generateRoutes(int count) {
+        for (int i = 0; i < count*4; i++) {
             Route route = new Route();
             route.setTimeDep(LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59)));
             route.setTimeArr(LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59)));
-            route.setDepPlId(platformRepository.findAll().get(i % 3));
-            route.setArrPlId(platformRepository.findAll().get((i + 1) % 3));
+            route.setDepPlId(platformRepository.findAll().get(random.nextInt(15*15)));
+            route.setArrPlId(platformRepository.findAll().get(random.nextInt(15*15)));
             routeRepository.create(route);
         }
     }
 
-    private void generateTrips() {
-        for (int i = 0; i < 5; i++) {
+    private void generateTrips(int count) {
+        for (int i = 0; i < 15*15; i++) {
             Trip trip = new Trip();
-            trip.setDate(LocalDate.now().plusDays(faker.number().numberBetween(1, 30)));
-            trip.setTrain(trainRepository.findAll().get(i % 5));
-            trip.setRoute(routeRepository.findAll().get(i % 5));
-            trip.setStatusTrip(StatusTrip.SCHEDULED);
-            trip.setDelayed(false);
+            trip.setDateDep(LocalDate.now().plusDays(faker.number().numberBetween(-7, 5)));
+            trip.setDateArr(LocalDate.now().plusDays(faker.number().numberBetween(6, 23)));
+            trip.setTrain(trainRepository.findAll().get(random.nextInt(count)));
+            trip.setRoute(routeRepository.findAll().get(random.nextInt(count)));
+            trip.setStatusTrip(randomStatusTrip());
+            trip.setDelayed(random.nextBoolean());
+            trip.setDelayTime(trip.isDelayed() ? LocalTime.of(faker.number().numberBetween(0, 0), faker.number().numberBetween(0, 59)) : null);
             tripRepository.create(trip);
         }
+    }
+
+    private StatusTrip randomStatusTrip() {
+        return StatusTrip.values()[random.nextInt(StatusTrip.values().length)];
     }
 }

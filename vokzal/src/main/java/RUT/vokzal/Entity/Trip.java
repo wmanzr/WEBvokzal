@@ -2,13 +2,15 @@ package RUT.vokzal.Entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.stream.Stream;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "trip", schema = "public")
 public class Trip extends BaseEntity{
-  private LocalDate date;
+  private LocalDate dateArr;
+  private LocalDate dateDep;
   private Train trainId;
   private Route routeId;
   private StatusTrip statusTrip;
@@ -35,9 +37,14 @@ public class Trip extends BaseEntity{
     return this.routeId;
   }
 
-  @Column(name = "date", nullable = false)
-	public LocalDate getDate() {
-		return date;
+  @Column(name = "date_arr", nullable = false)
+	public LocalDate getDateArr() {
+		return dateArr;
+	}
+
+  @Column(name = "date_dep", nullable = false)
+	public LocalDate getDateDep() {
+		return dateDep;
 	}
 
   @Column(name = "is_delayed", nullable = false)
@@ -62,8 +69,12 @@ public class Trip extends BaseEntity{
 		this.routeId = route;
 	}
 
-  public void setDate(LocalDate date) {
-		this.date = date;
+  public void setDateArr(LocalDate dateArr) {
+		this.dateArr = dateArr;
+	}
+
+  public void setDateDep(LocalDate dateDep) {
+		this.dateDep = dateDep;
 	}
 
   public void setDelayed(boolean isDelayed) {
@@ -73,4 +84,9 @@ public class Trip extends BaseEntity{
   public void setDelayTime(LocalTime delayTime) {
     this.delayTime = delayTime;
   }
+
+public Stream<Trip> stream() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'stream'");
+}
 }
