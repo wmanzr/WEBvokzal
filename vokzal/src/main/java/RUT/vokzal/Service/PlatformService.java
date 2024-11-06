@@ -1,5 +1,11 @@
 package RUT.vokzal.Service;
 
-public class PlatformService {
+import RUT.vokzal.Entity.Platform;
+import java.util.List;
 
+public interface PlatformService {
+    void createPlatform(Platform platform);
+    Platform getPlatformById(Integer id);
+    Platform updatePlatform(Platform platform);
+    List<Platform> getAllPlatforms();
 }

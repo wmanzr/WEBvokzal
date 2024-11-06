@@ -6,6 +6,7 @@ import RUT.vokzal.Entity.Vokzal;
 import RUT.vokzal.Repository.TripRepository;
 import RUT.vokzal.Repository.VokzalRepository;
 import RUT.vokzal.Service.HomeService;
+import RUT.vokzal.Utils.ValidationUtil;
 import jakarta.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
@@ -22,13 +23,37 @@ import java.util.stream.Collectors;
 @Service
 public class HomeServiceImpl implements HomeService {
 
-    @Autowired
     private TripRepository tripRepository;
+    private VokzalRepository vokzalRepository;
+    private ModelMapper modelMapper;
+    private ValidationUtil validationUtil;
+    
+    public ValidationUtil getValidationUtil() {
+        return this.validationUtil;
+    }
+    
+    @Autowired
+    public void setValidationUtil(ValidationUtil validationUtil) {
+        this.validationUtil = validationUtil;
+    }
+
+    public TripRepository getTripRepository() {
+        return this.tripRepository;
+    }
 
     @Autowired
-    private VokzalRepository vokzalRepository;
+    public void setTripRepository(TripRepository tripRepository) {
+        this.tripRepository = tripRepository;
+    }
 
-    private ModelMapper modelMapper;
+    public VokzalRepository getVokzalRepository() {
+        return this.vokzalRepository;
+    }
+
+    @Autowired
+    public void setVokzalRepository(VokzalRepository vokzalRepository) {
+        this.vokzalRepository = vokzalRepository;
+    }
 
     public ModelMapper getModelMapper() {
         return this.modelMapper;

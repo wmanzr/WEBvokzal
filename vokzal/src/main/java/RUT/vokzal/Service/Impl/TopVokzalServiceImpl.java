@@ -9,6 +9,7 @@ import RUT.vokzal.DTO.VokzalDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import RUT.vokzal.Repository.VokzalRepository;
 import RUT.vokzal.Service.TopVokzalService;
 
@@ -16,6 +17,16 @@ import RUT.vokzal.Service.TopVokzalService;
 public class TopVokzalServiceImpl implements TopVokzalService{
     
     private ModelMapper modelMapper;
+    private VokzalRepository vokzalRepository;
+
+    public VokzalRepository getVokzalRepository() {
+        return this.vokzalRepository;
+    }
+
+    @Autowired
+    public void setVokzalRepository(VokzalRepository vokzalRepository) {
+        this.vokzalRepository = vokzalRepository;
+    }
 
     public ModelMapper getModelMapper() {
         return this.modelMapper;
@@ -25,9 +36,6 @@ public class TopVokzalServiceImpl implements TopVokzalService{
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
-
-    @Autowired
-    private VokzalRepository vokzalRepository;
 
     @Override
     public List<VokzalDTO> getTop5VokzalsByDepartures() {

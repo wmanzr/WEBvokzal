@@ -17,7 +17,17 @@ import RUT.vokzal.Service.TopTripService;
 @Service
 public class TopTripServiceImpl implements TopTripService{
 
-private ModelMapper modelMapper;
+    private ModelMapper modelMapper;
+    private TripRepository tripRepository;
+
+    public TripRepository getTripRepository() {
+        return this.tripRepository;
+    }
+
+    @Autowired
+    public void setTripRepository(TripRepository tripRepository) {
+        this.tripRepository = tripRepository;
+    }
 
     public ModelMapper getModelMapper() {
         return this.modelMapper;
@@ -27,9 +37,6 @@ private ModelMapper modelMapper;
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
-
-    @Autowired
-    private TripRepository tripRepository;
 
     @Override
     public List<TripDTO> getTop5Trips() {
