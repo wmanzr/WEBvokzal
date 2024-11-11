@@ -1,8 +1,8 @@
 package RUT.vokzal.Service;
 
 import java.util.List;
-import RUT.vokzal.DTO.VokzalDTO;
+import RUT.vokzal.DTO.VokzalInDTO;
 
 public interface TopVokzalService {
-    List<VokzalDTO> getTop5VokzalsByDepartures();
+    List<VokzalInDTO> getTop5VokzalsByDepartures();
 }

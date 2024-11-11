@@ -1,7 +1,10 @@
 package RUT.vokzal.Controller;
 
-import RUT.vokzal.Entity.Employee;
+import RUT.vokzal.DTO.EmployeeInDTO;
+import RUT.vokzal.DTO.View.EmployeeOutDTO;
 import RUT.vokzal.Service.EmployeeService;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,23 +26,22 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public void createEmployee(@RequestBody Employee employee) {
-        employeeService.createEmployee(employee);
+    public void createEmployee(@Valid @RequestBody EmployeeInDTO employeeInDTO) {
+        employeeService.createEmployee(employeeInDTO);
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable Integer id) {
+    public EmployeeOutDTO getEmployeeById(@PathVariable Integer id) {
         return employeeService.getEmployeeById(id);
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Integer id, @RequestBody Employee employee) {
-        employee.setId(id);
-        return employeeService.updateEmployee(employee);
+    public void updateEmployee(@Valid @PathVariable Integer id, @RequestBody EmployeeInDTO employeeInDTO) {
+        employeeService.updateEmployee(id, employeeInDTO);
     }
 
     @GetMapping
-    public List<Employee> getAllEmployees() {
+    public List<EmployeeOutDTO> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
 }

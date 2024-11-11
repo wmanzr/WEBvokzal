@@ -1,6 +1,6 @@
 package RUT.vokzal.Controller;
 
-import RUT.vokzal.DTO.TripDTO;
+import RUT.vokzal.DTO.TripInDTO;
 import RUT.vokzal.Service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ public class HomeController {
     private HomeService homeService;
 
     @GetMapping("/upcoming-trips")
-    public List<TripDTO> getUpcomingTripsWithTime(@RequestParam String vokzalName) {
+    public List<TripInDTO> getUpcomingTripsWithTime(@RequestParam String vokzalName) {
         return homeService.getUpcomingTripsWithTimeByStationName(vokzalName);
     }
 
@@ -24,7 +24,7 @@ public class HomeController {
     }
 
     @GetMapping("/alternative-trips")
-    public List<TripDTO> getAlternativeTripsIfCanceled() {
+    public List<TripInDTO> getAlternativeTripsIfCanceled() {
         return homeService.getAlternativeTripsIfCanceled();
     }
 }

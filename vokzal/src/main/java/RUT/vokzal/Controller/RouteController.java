@@ -1,7 +1,9 @@
 package RUT.vokzal.Controller;
 
-import RUT.vokzal.Entity.Route;
+import RUT.vokzal.DTO.RouteInDTO;
+import RUT.vokzal.DTO.View.RouteOutDTO;
 import RUT.vokzal.Service.RouteService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,33 +15,28 @@ public class RouteController {
 
     private RouteService routeService;
 
-    public RouteService getRouteService() {
-        return this.routeService;
-    }
-
     @Autowired
     public void setRouteService(RouteService routeService) {
         this.routeService = routeService;
     }
 
     @PostMapping
-    public void createRoute(@RequestBody Route route) {
-        routeService.createRoute(route);
+    public void createRoute(@Valid @RequestBody RouteInDTO routeInDTO) {
+        routeService.createRoute(routeInDTO);
     }
 
     @GetMapping("/{id}")
-    public Route getRouteById(@PathVariable Integer id) {
+    public RouteOutDTO getRouteById(@PathVariable Integer id) {
         return routeService.getRouteById(id);
     }
 
     @PutMapping("/{id}")
-    public Route updateRoute(@PathVariable Integer id, @RequestBody Route route) {
-        route.setId(id);
-        return routeService.updateRoute(route);
+    public void updateRoute(@Valid @PathVariable Integer id, @RequestBody RouteInDTO routeInDTO) {
+        routeService.updateRoute(id, routeInDTO);
     }
 
     @GetMapping
-    public List<Route> getAllRoutes() {
+    public List<RouteOutDTO> getAllRoutes() {
         return routeService.getAllRoutes();
     }
 }

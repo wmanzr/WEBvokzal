@@ -1,7 +1,9 @@
 package RUT.vokzal.Controller;
 
-import RUT.vokzal.Entity.Platform;
+import RUT.vokzal.DTO.PlatformInDTO;
+import RUT.vokzal.DTO.View.PlatformOutDTO;
 import RUT.vokzal.Service.PlatformService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,33 +15,28 @@ public class PlatformController {
 
     private PlatformService platformService;
 
-    public PlatformService getPlatformService() {
-        return this.platformService;
-    }
-
     @Autowired
     public void setPlatformService(PlatformService platformService) {
         this.platformService = platformService;
     }
 
     @PostMapping
-    public void createPlatform(@RequestBody Platform platform) {
-        platformService.createPlatform(platform);
+    public void createPlatform(@Valid @RequestBody PlatformInDTO platformInDTO) {
+        platformService.createPlatform(platformInDTO);
     }
 
     @GetMapping("/{id}")
-    public Platform getPlatformById(@PathVariable Integer id) {
+    public PlatformOutDTO getPlatformById(@PathVariable Integer id) {
         return platformService.getPlatformById(id);
     }
 
     @PutMapping("/{id}")
-    public Platform updatePlatform(@PathVariable Integer id, @RequestBody Platform platform) {
-        platform.setId(id);
-        return platformService.updatePlatform(platform);
+    public void updatePlatform(@Valid @PathVariable Integer id, @RequestBody PlatformInDTO platformInDTO) {
+        platformService.updatePlatform(id, platformInDTO);
     }
 
     @GetMapping
-    public List<Platform> getAllPlatforms() {
+    public List<PlatformOutDTO> getAllPlatforms() {
         return platformService.getAllPlatforms();
     }
 }

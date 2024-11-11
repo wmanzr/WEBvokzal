@@ -1,11 +1,12 @@
 package RUT.vokzal.Service;
 
-import RUT.vokzal.Entity.Train;
+import RUT.vokzal.DTO.TrainInDTO;
+import RUT.vokzal.DTO.View.TrainOutDTO;
 import java.util.List;
 
 public interface TrainService {
-    void createTrain(Train train);
-    Train getTrainById(Integer id);
-    Train updateTrain(Train train);
-    List<Train> getAllTrains();
+    void createTrain(TrainInDTO trainInDTO);
+    TrainOutDTO getTrainById(Integer id);
+    void updateTrain(int id, TrainInDTO trainInDTO);
+    List<TrainOutDTO> getAllTrains();
 }

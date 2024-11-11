@@ -2,8 +2,8 @@ package RUT.vokzal.Service;
 
 import java.util.List;
 
-import RUT.vokzal.DTO.TripDTO;
+import RUT.vokzal.DTO.TripInDTO;
 
 public interface TopTripService {
-    List<TripDTO> getTop5Trips();
+    List<TripInDTO> getTop5Trips();
 }

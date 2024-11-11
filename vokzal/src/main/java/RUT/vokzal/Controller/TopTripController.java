@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import RUT.vokzal.DTO.TripDTO;
+import RUT.vokzal.DTO.TripInDTO;
 import RUT.vokzal.Service.TopTripService;
 
 @RestController
@@ -18,7 +18,7 @@ public class TopTripController {
     private TopTripService topTripService;
 
     @GetMapping("/top-trips")
-    public List<TripDTO> getTop5Trips() {
+    public List<TripInDTO> getTop5Trips() {
         return topTripService.getTop5Trips();
     }
 }

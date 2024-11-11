@@ -9,7 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import RUT.vokzal.DTO.TripDTO;
+import RUT.vokzal.DTO.TripInDTO;
 import RUT.vokzal.Entity.Trip;
 import RUT.vokzal.Repository.TripRepository;
 import RUT.vokzal.Service.TopTripService;
@@ -39,10 +39,10 @@ public class TopTripServiceImpl implements TopTripService{
     }
 
     @Override
-    public List<TripDTO> getTop5Trips() {
+    public List<TripInDTO> getTop5Trips() {
         List<Trip> trips = tripRepository.findTop5TripsWithMaxSpeedAndMinDuration();
 
-        List<TripDTO> tripSort = trips.stream()
+        List<TripInDTO> tripSort = trips.stream()
             .sorted((trip1, trip2) -> {
 
                 LocalDateTime departureDateTime1 = LocalDateTime.of(trip1.getDateDep(), trip1.getRoute().getTimeDep());
@@ -55,7 +55,7 @@ public class TopTripServiceImpl implements TopTripService{
 
                 return Long.compare(duration1.getSeconds(), duration2.getSeconds());
             })
-            .map(trip -> modelMapper.map(trip, TripDTO.class))
+            .map(trip -> modelMapper.map(trip, TripInDTO.class))
             .collect(Collectors.toList());
 
         return tripSort;

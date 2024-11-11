@@ -1,10 +1,10 @@
-package RUT.vokzal.DTO;
+package RUT.vokzal.DTO.View;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class TripDTO {
-    private int id;
+public class TripOutDTO {
+private int id;
     private LocalDate dateArr;
     private LocalDate dateDep;
     private int trainId;

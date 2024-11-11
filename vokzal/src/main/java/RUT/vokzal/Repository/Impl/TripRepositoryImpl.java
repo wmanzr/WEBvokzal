@@ -44,11 +44,13 @@ public class TripRepositoryImpl extends BaseRepository<Trip, Integer> implements
             "SELECT t " +
             "FROM Trip t JOIN t.route r " +
             "WHERE r.depPlId.vokzalId.id = :stationId " +
-            "AND (t.dateDep > :nowDate OR (t.dateDep = :nowDate AND r.timeDep >= :nowTime))", 
+            "AND (t.dateDep > :nowDate OR (t.dateDep = :nowDate AND r.timeDep >= :nowTime)) " +
+            "ORDER BY t.dateDep, r.timeDep", 
             Trip.class)
             .setParameter("stationId", stationId)
             .setParameter("nowDate", nowDate)
             .setParameter("nowTime", nowTime)
+            .setMaxResults(5)
             .getResultList();
     }
 

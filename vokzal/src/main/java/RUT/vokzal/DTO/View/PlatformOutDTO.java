@@ -1,6 +1,6 @@
-package RUT.vokzal.DTO;
+package RUT.vokzal.DTO.View;
 
-public class PlatformDTO {
+public class PlatformOutDTO {
     private int id;
     private int vokzalId;
     private int number;

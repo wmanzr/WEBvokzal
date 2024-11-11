@@ -1,11 +1,12 @@
 package RUT.vokzal.Service;
 
-import RUT.vokzal.Entity.Trip;
+import RUT.vokzal.DTO.TripInDTO;
+import RUT.vokzal.DTO.View.TripOutDTO;
 import java.util.List;
 
 public interface TripService {
-    void createTrip(Trip trip);
-    Trip getTripById(Integer id);
-    Trip updateTrip(Trip trip);
-    List<Trip> getAllTrips();
+    void createTrip(TripInDTO tripInDTO);
+    TripOutDTO getTripById(Integer id);
+    void updateTrip(int id, TripInDTO tripInDTO);
+    List<TripOutDTO> getAllTrips();
 }

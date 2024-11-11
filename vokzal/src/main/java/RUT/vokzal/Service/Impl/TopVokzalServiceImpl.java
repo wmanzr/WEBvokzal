@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import RUT.vokzal.Entity.Vokzal;
-import RUT.vokzal.DTO.VokzalDTO;
+import RUT.vokzal.DTO.VokzalInDTO;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +38,11 @@ public class TopVokzalServiceImpl implements TopVokzalService{
     }
 
     @Override
-    public List<VokzalDTO> getTop5VokzalsByDepartures() {
+    public List<VokzalInDTO> getTop5VokzalsByDepartures() {
     LocalDate nowDate = LocalDate.now();
     List<Vokzal> topVokzals = vokzalRepository.findTop5VokzalsByDepartures(nowDate);
     return topVokzals.stream()
-            .map(vokzal -> modelMapper.map(vokzal, VokzalDTO.class))
+            .map(vokzal -> modelMapper.map(vokzal, VokzalInDTO.class))
             .collect(Collectors.toList());
     }
 }

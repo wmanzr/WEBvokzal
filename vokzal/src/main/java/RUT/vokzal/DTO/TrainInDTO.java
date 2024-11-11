@@ -1,6 +1,8 @@
 package RUT.vokzal.DTO;
 
-public class TrainDTO {
+import RUT.vokzal.DTO.View.TrainOutDTO;
+
+public class TrainInDTO extends TrainOutDTO{
     private int id;
     private int number;
     private String type;

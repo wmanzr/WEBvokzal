@@ -2,7 +2,9 @@ package RUT.vokzal.DTO;
 
 import java.time.LocalTime;
 
-public class RouteDTO {
+import RUT.vokzal.DTO.View.RouteOutDTO;
+
+public class RouteInDTO extends RouteOutDTO{
     private int id;
     private LocalTime timeDep;
     private LocalTime timeArr;

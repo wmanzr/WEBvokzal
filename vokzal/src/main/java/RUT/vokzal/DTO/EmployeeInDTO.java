@@ -1,6 +1,8 @@
 package RUT.vokzal.DTO;
 
-public class EmployeeDTO {
+import RUT.vokzal.DTO.View.EmployeeOutDTO;
+
+public class EmployeeInDTO extends EmployeeOutDTO{
     private int id;
     private String post;
     private String login;

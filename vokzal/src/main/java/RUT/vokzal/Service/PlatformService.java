@@ -1,11 +1,12 @@
 package RUT.vokzal.Service;
 
-import RUT.vokzal.Entity.Platform;
+import RUT.vokzal.DTO.PlatformInDTO;
+import RUT.vokzal.DTO.View.PlatformOutDTO;
 import java.util.List;
 
 public interface PlatformService {
-    void createPlatform(Platform platform);
-    Platform getPlatformById(Integer id);
-    Platform updatePlatform(Platform platform);
-    List<Platform> getAllPlatforms();
+    void createPlatform(PlatformInDTO platformInDTO);
+    PlatformOutDTO getPlatformById(Integer id);
+    void updatePlatform(int id, PlatformInDTO platformInDTO);
+    List<PlatformOutDTO> getAllPlatforms();
 }

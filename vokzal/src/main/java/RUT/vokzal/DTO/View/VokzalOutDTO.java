@@ -1,6 +1,6 @@
-package RUT.vokzal.DTO;
+package RUT.vokzal.DTO.View;
 
-public class VokzalDTO {
+public class VokzalOutDTO {
     private int id;
     private String name;
     private String city;

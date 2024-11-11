@@ -1,7 +1,9 @@
 package RUT.vokzal.Controller;
 
-import RUT.vokzal.Entity.Train;
+import RUT.vokzal.DTO.TrainInDTO;
+import RUT.vokzal.DTO.View.TrainOutDTO;
 import RUT.vokzal.Service.TrainService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,33 +15,28 @@ public class TrainController {
 
     private TrainService trainService;
 
-    public TrainService getTrainService() {
-        return this.trainService;
-    }
-
     @Autowired
     public void setTrainService(TrainService trainService) {
         this.trainService = trainService;
     }
 
     @PostMapping
-    public void createTrain(@RequestBody Train train) {
-        trainService.createTrain(train);
+    public void createTrain(@Valid @RequestBody TrainInDTO trainInDTO) {
+        trainService.createTrain(trainInDTO);
     }
 
     @GetMapping("/{id}")
-    public Train getTrainById(@PathVariable Integer id) {
+    public TrainOutDTO getTrainById(@PathVariable Integer id) {
         return trainService.getTrainById(id);
     }
 
     @PutMapping("/{id}")
-    public Train updateTrain(@PathVariable Integer id, @RequestBody Train train) {
-        train.setId(id);
-        return trainService.updateTrain(train);
+    public void updateTrain(@Valid @PathVariable Integer id, @RequestBody TrainInDTO trainInDTO) {
+        trainService.updateTrain(id, trainInDTO);
     }
 
     @GetMapping
-    public List<Train> getAllTrains() {
+    public List<TrainOutDTO> getAllTrains() {
         return trainService.getAllTrains();
     }
 }

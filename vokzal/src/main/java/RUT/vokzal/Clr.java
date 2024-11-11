@@ -49,16 +49,16 @@ public class Clr implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        clearDatabase();
+        // clearDatabase();
 
         int count = 40;
 
-        generateTrains(count);
-        generateVokzals();
-        generatePlatforms();
-        generateEmployees(count);
-        generateRoutes(count);
-        generateTrips(count);
+        // generateTrains(count);
+        // generateVokzals();
+        // generatePlatforms();
+        // generateEmployees(count);
+        // generateRoutes(count);
+        // generateTrips(count);
     }
 
     private void clearDatabase() {

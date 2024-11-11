@@ -1,6 +1,6 @@
 package RUT.vokzal.Service.Impl;
 
-import RUT.vokzal.DTO.TripDTO;
+import RUT.vokzal.DTO.TripInDTO;
 import RUT.vokzal.Entity.Trip;
 import RUT.vokzal.Entity.Vokzal;
 import RUT.vokzal.Repository.TripRepository;
@@ -65,7 +65,7 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public List<TripDTO> getUpcomingTripsWithTimeByStationName(String vokzalName) {
+    public List<TripInDTO> getUpcomingTripsWithTimeByStationName(String vokzalName) {
     Vokzal vokzal = vokzalRepository.findByName(vokzalName);
     LocalDate nowDate = LocalDate.now();
     LocalTime nowTime = LocalTime.now();
@@ -77,7 +77,7 @@ public class HomeServiceImpl implements HomeService {
     List<Trip> upcomingTrips = tripRepository.findUpcomingTripsWithTimeByStation(vokzal.getId(), nowDate, nowTime);
 
     return upcomingTrips.stream()
-            .map(trip -> modelMapper.map(trip, TripDTO.class))
+            .map(trip -> modelMapper.map(trip, TripInDTO.class))
             .collect(Collectors.toList());
     }
 
@@ -122,11 +122,11 @@ public class HomeServiceImpl implements HomeService {
 }
 
     @Override
-    public List<TripDTO> getAlternativeTripsIfCanceled() {
+    public List<TripInDTO> getAlternativeTripsIfCanceled() {
     LocalDate nowDate = LocalDate.now();
     List<Trip> canceledTrips = tripRepository.findCanceledTrips();
 
-    List<TripDTO> alternativeTrips = new ArrayList<>();
+    List<TripInDTO> alternativeTrips = new ArrayList<>();
     
     for (Trip canceledTrip : canceledTrips) {
 
@@ -136,7 +136,7 @@ public class HomeServiceImpl implements HomeService {
             alternativeTrips.add(null);
         } else {
             alternatives.stream()
-                .map(alternativeTrip -> modelMapper.map(alternativeTrip, TripDTO.class))
+                .map(alternativeTrip -> modelMapper.map(alternativeTrip, TripInDTO.class))
                 .forEach(alternativeTrips::add);
         }
     }
